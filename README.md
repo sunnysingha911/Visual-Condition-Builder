@@ -1,75 +1,71 @@
-# React + TypeScript + Vite
+# Visual Condition Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application that allows users to visually create and manage nested logical conditions using groups and rules. Users can combine rules with logical operators (AND / OR), nest groups infinitely, and view the resulting condition structure as JSON in real time.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Nested Groups**: Create deeply nested logical structures.
+- **Dynamic Rules**: Add, update, or delete individual rules within groups.
+- **Logical Operators**: Support for AND/OR operators at the group level.
+- **Real-time Preview**: Instantly see the generated logic in JSON format.
+- **UI**: Built with React 19.2.0, TypeScript, and Tailwind CSS 4.
 
-## React Compiler
+## 🛠️ Setup Instructions
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Ensure you have [Node.js](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed on your machine.
 
-Note: This will impact Vite dev & build performances.
+1. **Clone the Repository**
 
-## Expanding the ESLint configuration
+   ```bash
+   git clone https://github.com/sunnysingha911/Visual-Condition-Builder
+   cd visual-condition-builder
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **Install Dependencies**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   ```bash
+   yarn
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. **Start the Development Server**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   yarn dev
+   ```
+
+4. **Build for Production**
+   ```bash
+   yarn build
+   ```
+
+## 📂 Folder Structure
+
+```text
+/src
+  /components      # Reusable UI components
+    - ActionBar.tsx # Controls for adding rules/groups
+    - Button.tsx    # Styled button component
+    - Dropdown.tsx  # Custom dropdown for fields and operators
+    - Group.tsx     # Container for logical groups
+    - Input.tsx     # Styled input field
+    - Result.tsx    # JSON preview display
+    - Rules.tsx     # Individual rule component
+  /context         # State management using React Context
+    /NodeContext   # Specific context for managing the condition tree
+  /hooks           # Custom React hooks (e.g., useNode)
+  - App.tsx        # Main application layout and logic
+  - App.css        # App-specific styles
+  - index.css      # Global styles and Tailwind imports
+  - main.tsx       # React entry point
+  - types.ts       # TypeScript interfaces, types, and enums
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🧩 Assumptions
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Logic Tree**: The application creates a tree-like structure where each node is either a "rule" or a "group". A group can contain multiple rules or other groups.
+- **State Management**: State is handled using React's `useReducer` and `Context API` to ensure a clean, predictable flow without external libraries like Redux.
+- **Value Handling**: Input values for rules are treated as strings.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⚠️ Known Limitations
+
+- **Field Validation**: Values are currently captured as strings. Strict type validation (e.g., ensuring "Price" is a number) is not enforced at the UI level.
